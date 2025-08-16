@@ -1,0 +1,32 @@
+repos:
+  - repo: https://github.com/pre-commit/mirrors-shellcheck
+    rev: v0.10.0
+    hooks:
+      - id: shellcheck
+        files: ^(scripts|install.sh|uninstall.sh)
+  - repo: https://github.com/mvdan/sh
+    rev: v3.7.0
+    hooks:
+      - id: shfmt
+        files: ^(scripts|install.sh|uninstall.sh)
+        args: ['-i', '2', '-ci']
+  - repo: https://github.com/adrienverge/yamllint.git
+    rev: v1.35.1
+    hooks:
+      - id: yamllint
+        files: \.(yml|yaml)$
+  - repo: https://github.com/solidsnack/pre-commit-jsonlint
+    rev: v1.4.0
+    hooks:
+      - id: jsonlint
+        files: \.(json|jsonc)$
+  - repo: https://github.com/tamuhey/pre-commit-toml
+    rev: v1.0.0
+    hooks:
+      - id: tomlcheck
+        files: \.(toml)$
+  - repo: https://github.com/jose-elias-alvarez/pre-commit-luacheck
+    rev: v1.1.2
+    hooks:
+      - id: luacheck
+        files: \.(lua)$

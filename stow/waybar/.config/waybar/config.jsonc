@@ -1,0 +1,34 @@
+{
+  // Waybar config
+  "layer": "top",
+  "position": "top",
+  "height": 28,
+  "modules-left": ["workspaces", "mode"],
+  "modules-center": ["clock"],
+  "modules-right": ["pulseaudio", "network", "bluetooth", "battery", "tray"],
+  "clock": {
+    "format": "%Y-%m-%d %H:%M",
+    "tooltip": false
+  },
+  "workspaces": {
+    "on-scroll-up": "hyprctl dispatch workspace +1",
+    "on-scroll-down": "hyprctl dispatch workspace -1"
+  },
+  "pulseaudio": {
+    "on-click": "pavucontrol"
+  },
+  "network": {
+    "on-click": "scripts/rofi-wifi"
+  },
+  "bluetooth": {
+    "on-click": "scripts/rofi-bluetooth"
+  },
+  "battery": {
+    "format": "{capacity}%",
+    "format-icons": ["", "", "", "", ""]
+  },
+  "tray": {
+    "spacing": 10
+  },
+  "style": "style.css"
+}

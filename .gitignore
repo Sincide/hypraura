@@ -1,0 +1,7 @@
+# Git ignore for hypraura
+.backup/
+*.pyc
+__pycache__/
+wallpaper-current
+palette.json
+*.log

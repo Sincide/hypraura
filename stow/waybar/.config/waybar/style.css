@@ -1,0 +1,40 @@
+@import "colors.css";
+
+* {
+  font-family: "Fira Sans", sans-serif;
+  color: var(--fg);
+}
+
+window#waybar {
+  background: var(--bg);
+  border-bottom: 2px solid var(--accent);
+}
+
+#workspaces {
+  background-image: url("../../assets/bar/separators.svg");
+  background-repeat: no-repeat;
+  background-position: center bottom;
+}
+
+#workspaces button {
+  padding: 0 6px;
+}
+
+#workspaces button.active {
+  border-bottom: 2px solid var(--accent);
+  animation: pulse 3s infinite;
+}
+
+#clock {
+  padding: 0 10px;
+}
+
+#tray > .item {
+  padding: 0 5px;
+}
+
+@keyframes pulse {
+  0% {opacity: 1;}
+  50% {opacity: .5;}
+  100% {opacity: 1;}
+}

@@ -1,0 +1,2 @@
+weather_provider: "https://wttr.in/Stockholm?format=j1"
+poll_interval: 600

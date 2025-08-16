@@ -1,0 +1,4 @@
+[Unit]
+Description=Apply theming
+Requires=mood-engine.service
+After=mood-engine.service

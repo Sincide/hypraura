@@ -1,0 +1,12 @@
+[Unit]
+Description=mpvpaper on %i
+After=swww.service
+
+[Service]
+WorkingDirectory=%h/hypraura
+ExecStart=%h/hypraura/scripts/run-mpvpaper start
+ExecStop=%h/hypraura/scripts/run-mpvpaper stop
+Restart=on-failure
+
+[Install]
+WantedBy=graphical-session.target

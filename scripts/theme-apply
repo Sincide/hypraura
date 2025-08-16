@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+cd "$REPO_ROOT"
+
+usage(){
+  echo "theme-apply: render templates using palette.json"
+  echo "Usage: theme-apply [--help]"
+}
+[[ ${1:-} == --help ]] && { usage; exit 0; }
+
+pal="$REPO_ROOT/palette.json"
+[[ -f $pal ]] || { echo "palette.json missing" >&2; exit 1; }
+
+bg=$(jq -r '.palette.background // "#222"' "$pal")
+fg=$(jq -r '.palette.foreground // "#eee"' "$pal")
+primary=$(jq -r '.palette.primary // "#555"' "$pal")
+secondary=$(jq -r '.palette.secondary // "#777"' "$pal")
+accent=$(jq -r '.palette.accent // "#44ccaa"' "$pal")
+success=$(jq -r '.palette.success // "#a3be8c"' "$pal")
+warn=$(jq -r '.palette.warning // "#ebcb8b"' "$pal")
+error=$(jq -r '.palette.error // "#bf616a"' "$pal")
+
+declare -A files=(
+  ["stow/templates/waybar/colors.css.tmpl"]="stow/waybar/.config/waybar/colors.css"
+  ["stow/templates/wofi/colors.css.tmpl"]="stow/wofi/.config/wofi/colors.css"
+  ["stow/templates/rofi/colors.rasi.tmpl"]="stow/rofi/.config/rofi/colors.rasi"
+  ["stow/templates/wezterm/colors.lua.tmpl"]="stow/wezterm/colors.lua"
+  ["stow/templates/kitty/colors.conf.tmpl"]="stow/kitty/.config/kitty/colors.conf"
+  ["stow/templates/swaync/colors.css.tmpl"]="stow/swaync/.config/swaync/colors.css"
+  ["stow/templates/gtk/gtk.css.tmpl"]="stow/gtk/.config/gtk-3.0/gtk.css"
+  ["stow/templates/kvantum/SkogsLjus.kvconfig.tmpl"]="stow/kvantum/.config/Kvantum/SkogsLjus/SkogsLjus.kvconfig"
+)
+
+for src in "${!files[@]}"; do
+  dst="${files[$src]}"
+  mkdir -p "$(dirname "$dst")"
+  BG="$bg" FG="$fg" PRIMARY="$primary" SECONDARY="$secondary" ACCENT="$accent" SUCCESS="$success" WARN="$warn" ERROR="$error" envsubst <"$src" >"$dst"
+  echo "rendered $dst"
+done
+
+# reload programs
+pkill -USR2 waybar 2>/dev/null || true
+pkill -USR1 wezterm 2>/dev/null || true

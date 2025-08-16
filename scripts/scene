@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+cd "$REPO_ROOT"
+
+usage(){ echo "scene list|apply <name>"; }
+[[ ${1:-} == --help ]] && { usage; exit 0; }
+cmd=${1:-list}
+
+case $cmd in
+  list)
+    yq '.[] | .name' config/scenes.yaml ;;
+  apply)
+    name=${2:-}
+    [[ -z $name ]] && { echo "name required"; exit 1; }
+    file=$(yq -r ".[] | select(.name==\"$name\") | .wallpaper" config/scenes.yaml)
+    ln -sf "$file" wallpaper-current
+    scripts/mood-engine
+    scripts/theme-apply
+    ;;
+  *) usage; exit 1;;
+esac

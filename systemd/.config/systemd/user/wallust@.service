@@ -1,0 +1,8 @@
+[Unit]
+Description=Generate colors from %i
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/hypraura
+ExecStart=wallust -o palette.json %i
+ExecStartPost=%h/hypraura/scripts/theme-apply

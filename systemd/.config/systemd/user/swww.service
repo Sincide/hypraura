@@ -1,0 +1,9 @@
+[Unit]
+Description=Wallpaper daemon
+After=graphical-session.target
+
+[Service]
+ExecStart=swww-daemon
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,13 @@
+# Scenes rotate wallpaper, mood preset and motion level
+- name: morning
+  wallpaper: assets/wallpapers/morning.jpg
+  preset: Fika
+  motion: low
+  sound: birds
+  schedule: "07:00"
+- name: evening
+  wallpaper: assets/wallpapers/evening.jpg
+  preset: Midnatt
+  motion: medium
+  sound: crickets
+  schedule: "20:00"

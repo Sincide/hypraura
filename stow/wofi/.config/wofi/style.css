@@ -1,0 +1,12 @@
+@import "colors.css";
+window {
+  background: var(--bg);
+  color: var(--fg);
+  border: 2px solid var(--accent);
+}
+#input {
+  margin: 10px;
+}
+#inner-box {
+  padding: 5px;
+}

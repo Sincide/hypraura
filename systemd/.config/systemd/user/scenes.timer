@@ -1,0 +1,10 @@
+[Unit]
+Description=Rotate scenes hourly
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+Unit=scenes.service
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch wallpaper
+
+[Path]
+PathChanged=%h/hypraura/wallpaper-current
+Unit=wallust@%h/hypraura/wallpaper-current.service
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+set -euo pipefail
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+cd "$REPO_ROOT"
+
+usage(){ echo "prerender-wallpaper [output.png]"; }
+[[ ${1:-} == --help ]] && { usage; exit 0; }
+
+out=${1:-assets/wallpapers/aurora.png}
+mpv --really-quiet --vo=image --vf=format=png --frames=1 --no-audio \
+    --glsl-shader="shaders/aurora.frag" --glsl-shader="shaders/bokeh.frag" \
+    --glsl-shader="shaders/noise.glsl" --profile=gpu-hq --width=1920 --height=1080 \
+    --script="-" <<'MPVEOF'
+mp.set_property("vid", "1")
+mpv.osd_message('rendering')
+MPVEOF
+mv "00000001.png" "$out" 2>/dev/null || true
+echo "rendered $out"

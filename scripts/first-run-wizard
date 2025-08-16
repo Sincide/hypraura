@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+USER_CONF="$HOME/.config/skogsLjus/user.yml"
+
+usage(){
+  cat <<USAGE
+first-run-wizard: personalize SkogsLjus
+
+Options:
+  --help  Show this help
+USAGE
+}
+
+if [[ ${1:-} == --help ]]; then
+  usage; exit 0
+fi
+
+mkdir -p "$(dirname "$USER_CONF")"
+
+vibe=${VIBE:-"Fika"}
+motion=${MOTION:-"medium"}
+if command -v gum >/dev/null; then
+  vibe=$(gum choose Fika Skärgård Fjäll Midnatt Jul Valborg || echo Fika)
+  motion=$(gum choose low medium high || echo medium)
+else
+  read -rp "Vibe preset [Fika/Skärgård/Fjäll/Midnatt/Jul/Valborg]: " vibe
+  read -rp "Motion level [low/medium/high]: " motion
+fi
+
+cat > "$USER_CONF" <<YAML
+vibe: "$vibe"
+motion: "$motion"
+YAML
+
+echo "Saved $USER_CONF"

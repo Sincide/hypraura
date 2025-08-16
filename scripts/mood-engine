@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -euo pipefail
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+cd "$REPO_ROOT"
+
+usage(){
+  echo "mood-engine: blend wallpaper palette with time and weather"
+  echo "Usage: mood-engine [--help]"
+}
+[[ ${1:-} == --help ]] && { usage; exit 0; }
+
+WALL="${1:-wallpaper-current}"
+OUTPUT="palette.json"
+
+tmp=$(mktemp)
+wallust -o "$tmp" "$WALL" >/dev/null 2>&1 || true
+bg=$(jq -r '.colors.color0 // "#1d1f21"' "$tmp")
+fg=$(jq -r '.colors.color7 // "#c5c8c6"' "$tmp")
+pri=$(jq -r '.colors.color4 // "#88c0d0"' "$tmp")
+sec=$(jq -r '.colors.color5 // "#81a1c1"' "$tmp")
+acc=$(jq -r '.colors.color3 // "#a3be8c"' "$tmp")
+succ=$(jq -r '.colors.color2 // "#a3be8c"' "$tmp")
+warn=$(jq -r '.colors.color3 // "#ebcb8b"' "$tmp")
+err=$(jq -r '.colors.color1 // "#bf616a"' "$tmp")
+
+hour=$(date +%H)
+time_key=$(awk -v h="$hour" 'BEGIN{print(h<6?"night":h<12?"morning":h<18?"day":"evening")}' )
+
+provider=$(grep weather_provider config/mood.yml | cut -d'"' -f2)
+weather="clear"
+if command -v curl >/dev/null; then
+  weather=$(curl -fs "$provider" | jq -r '.current_condition[0].weatherDesc[0].value' 2>/dev/null || echo clear)
+fi
+
+jq -n \
+  --arg bg "$bg" --arg fg "$fg" --arg pri "$pri" --arg sec "$sec" --arg acc "$acc" \
+  --arg succ "$succ" --arg warn "$warn" --arg err "$err" \
+  --arg time "$time_key" --arg weather "$weather" \
+  '{palette:{background:$bg,foreground:$fg,primary:$pri,secondary:$sec,accent:$acc,success:$succ,warning:$warn,error:$err},time:$time,weather:$weather}' \
+  > "$OUTPUT"
+
+rm -f "$tmp"
+echo "Wrote $OUTPUT"
