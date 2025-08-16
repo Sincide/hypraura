@@ -4,7 +4,7 @@ set -euo pipefail
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$REPO_ROOT"
 
-services=(swww.service swaync.service cliphist.service mood-engine.service wallust.path scenes.timer scenes.service mpvpaper@.service)
+services=(swww.service swaync.service cliphist.service mood-engine.service mood-engine.timer wallust.path scenes.timer scenes.service mpvpaper@.service)
 for srv in "${services[@]}"; do
   systemctl --user disable --now "$srv" 2>/dev/null || true
 done

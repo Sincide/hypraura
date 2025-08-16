@@ -1,0 +1,10 @@
+[Unit]
+Description=Generate dynamic palette from wallpaper and weather
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/hypraura
+ExecStart=%h/hypraura/scripts/mood-engine
+
+[Install]
+WantedBy=default.target

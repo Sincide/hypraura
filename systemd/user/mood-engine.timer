@@ -1,0 +1,10 @@
+[Unit]
+Description=Run mood-engine periodically
+
+[Timer]
+OnBootSec=1min
+OnUnitActiveSec=10min
+Unit=mood-engine.service
+
+[Install]
+WantedBy=timers.target

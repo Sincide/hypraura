@@ -29,8 +29,8 @@ sudo sed -i 's/^#Color/Color/' /etc/pacman.conf
 sudo sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 
 PACKAGES=(
-  "base-devel" "git" "gnu-free-fonts" "xdg-user-dirs" \
-  "waybar" "wofi" "rofi-wayland" "swaync" \
+  "base-devel" "git" "stow" "gnu-free-fonts" "xdg-user-dirs" \
+  "waybar" "wofi" "rofi-wayland" "swaync" "swaylock" \
   "wallust" "pywal" "swww" "mpv" "mpvpaper" \
   "wezterm" "kitty" "thunar" "grim" "slurp" "swappy" \
   "wf-recorder" "cliphist" "cava" "jq" "imagemagick" "sox" "aubio" \
@@ -38,12 +38,13 @@ PACKAGES=(
   "papirus-icon-theme" "papirus-folders" "btop" "fastfetch" "yazi" \
   "playerctl" "wireplumber" "xdg-desktop-portal-gtk" "sdl2" "gum" \
   "hyprcursor" "hyprpaper" "xdg-desktop-portal-hyprland" \
-  "xdg-desktop-portal-wlr" "swayimg"
+  "xdg-desktop-portal-wlr" "swayimg" "curl" "inkscape" \
+  "networkmanager" "yq" "gettext"
 )
 
 # install yay if not present
 if ! command -v yay >/dev/null; then
-  sudo pacman -S --needed --noconfirm base-devel git
+  sudo pacman -S --needed --noconfirm base-devel git stow
   git clone https://aur.archlinux.org/yay-bin.git /tmp/yay-bin
   pushd /tmp/yay-bin >/dev/null
   makepkg -si --noconfirm
@@ -73,7 +74,9 @@ else
 fi
 
 # services
-systemctl --user enable --now swww.service swaync.service cliphist.service mood-engine.service wallust.path
+mkdir -p "$HOME/.config/systemd/user"
+cp systemd/user/mood-engine.service systemd/user/mood-engine.timer systemd/user/swww.service "$HOME/.config/systemd/user/"
+systemctl --user enable --now swww.service swaync.service cliphist.service wallust.path mood-engine.timer
 systemctl --user enable --now xdg-desktop-portal-hyprland.service 2>/dev/null || true
 systemctl --user enable --now xdg-desktop-portal-wlr.service 2>/dev/null || true
 
