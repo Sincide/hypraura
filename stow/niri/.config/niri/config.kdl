@@ -1,0 +1,20 @@
+root {
+  keyboard { layout "se" }
+  cursor { theme "SkogsLjus" }
+
+  exec { command "swaync" }
+  exec { command "scripts/run-mpvpaper start" }
+
+  binds {
+    bind "Super+Return" { command "wezterm" }
+    bind "Super+D" { command "wofi --show drun" }
+    bind "Super+Q" { close }
+    bind "Super+P" { command "scripts/power-menu" }
+    bind "Super+Print" { command "scripts/screenshot" }
+    bind "Super+Shift+Print" { command "scripts/record-screen" }
+  }
+
+  workspace 1 { monitor 0 }
+  workspace 2 { monitor 0 }
+  workspace 3 { monitor 0 }
+}

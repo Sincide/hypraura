@@ -1,0 +1,7 @@
+[Unit]
+Description=Rotate scenes
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/hypraura
+ExecStart=%h/hypraura/scripts/scene apply $(%h/hypraura/scripts/scene list | shuf -n1)

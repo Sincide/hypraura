@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+usage(){ echo "rofi-bluetooth [--help]"; }
+[[ ${1:-} == --help ]] && { usage; exit 0; }
+bluetoothctl devices | rofi -dmenu -p bt | awk '{print $2}' | xargs -r bluetoothctl connect

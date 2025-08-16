@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+usage(){ echo "power-menu [--help]"; }
+[[ ${1:-} == --help ]] && { usage; exit 0; }
+choice=$(printf 'lock\nlogout\nreboot\npoweroff' | wofi --show dmenu -p power)
+case $choice in
+  lock) swaylock;;
+  logout) loginctl terminate-user "$USER";;
+  reboot) systemctl reboot;;
+  poweroff) systemctl poweroff;;
+  *) exit 0;;
+esac

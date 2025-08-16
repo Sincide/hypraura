@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+usage(){ echo "screenshot [--help]"; }
+[[ ${1:-} == --help ]] && { usage; exit 0; }
+file="${HOME}/Pictures/shot-$(date +%F-%H%M%S).png"
+area=$(slurp)
+grim -g "$area" "$file" && swappy -f "$file"
+echo "$file"

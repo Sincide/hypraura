@@ -1,0 +1,5 @@
+name = "SkogsLjus"
+size = 24
+[colors]
+primary = "#ffffff"
+accent = "#00aa88"

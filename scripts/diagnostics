@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+usage(){ echo "diagnostics [--help]"; }
+[[ ${1:-} == --help ]] && { usage; exit 0; }
+fastfetch || true
+sensors 2>/dev/null || true
+systemctl --user --no-legend --state=running list-units | grep -E 'swww|mood|wallust|mpvpaper' || true

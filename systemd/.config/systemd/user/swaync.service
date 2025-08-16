@@ -1,0 +1,8 @@
+[Unit]
+Description=Notifications
+
+[Service]
+ExecStart=swaync
+
+[Install]
+WantedBy=graphical-session.target

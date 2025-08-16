@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+usage(){ echo "record-screen [--help]"; }
+[[ ${1:-} == --help ]] && { usage; exit 0; }
+file="${HOME}/Videos/rec-$(date +%F-%H%M%S).mp4"
+wf-recorder -f "$file"
+echo "$file"

@@ -1,0 +1,8 @@
+[Unit]
+Description=Clipboard history
+
+[Service]
+ExecStart=cliphist store
+
+[Install]
+WantedBy=graphical-session.target

@@ -1,0 +1,14 @@
+add_newline = false
+format = "$all"
+
+[character]
+success_symbol = "➜"
+error_symbol = "➜"
+
+[directory]
+truncation_length = 3
+
+[time]
+disabled = false
+format = "[$time]($style)"
+time_format = "%H:%M"

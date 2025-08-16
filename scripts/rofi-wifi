@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+usage(){ echo "rofi-wifi [--help]"; }
+[[ ${1:-} == --help ]] && { usage; exit 0; }
+choice=$(nmcli -f SSID dev wifi list | tail -n +2 | rofi -dmenu -p wifi)
+[[ -z $choice ]] && exit 0
+nmcli dev wifi connect "$choice"

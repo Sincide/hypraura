@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+
+usage(){
+  echo "run-mpvpaper start|stop"
+}
+
+cmd=${1:-start}
+FIFO=${FIFO:-/tmp/mpvpaper-audio}
+
+case $cmd in
+  start)
+    mkfifo "$FIFO" 2>/dev/null || true
+    mpvpaper -o "--no-config --player-operation-mode=pseudo-gui --glsl-shader=$REPO_ROOT/shaders/aurora.frag" \
+      '*' "$FIFO" &
+    ;;
+  stop)
+    pkill mpvpaper || true
+    ;;
+  --help)
+    usage; exit 0;;
+  *) usage; exit 1;;
+esac

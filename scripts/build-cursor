@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+cd "$REPO_ROOT/assets/cursors"
+usage(){ echo "build-cursor [--help]"; }
+[[ ${1:-} == --help ]] && { usage; exit 0; }
+
+mkdir -p build/png
+for svg in svg/*.svg; do
+  name=$(basename "$svg" .svg)
+  inkscape -w 64 -h 64 "$svg" -o build/png/$name.png >/dev/null
+  hyprcursor-util svg2cursor "$svg" build/$name.cursor 24 >/dev/null 2>&1 || true
+  echo "built $name"
+done

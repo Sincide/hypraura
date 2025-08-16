@@ -1,0 +1,4 @@
+backend = "full"
+color_space = "lch"
+[templater]
+css_template = "{color}"

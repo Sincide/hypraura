@@ -1,0 +1,12 @@
+@import "colors.css";
+window {
+  background: var(--bg);
+  color: var(--fg);
+}
+.notification {
+  border: 1px solid var(--accent);
+  padding: 6px;
+}
+.notification .title {
+  color: var(--accent);
+}

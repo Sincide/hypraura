@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+set -euo pipefail
+REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+cd "$REPO_ROOT"
+
+usage(){
+  echo "choose-wallpaper: pick wallpaper using wofi"
+}
+[[ ${1:-} == --help ]] && { usage; exit 0; }
+
+wall=$(find assets/wallpapers -type f | wofi --show dmenu --prompt "wallpaper" | tr -d '\n')
+[[ -z $wall ]] && exit 0
+ln -sf "$wall" wallpaper-current
+swww img "$wall" --transition-type wipe 2>/dev/null || true
+scripts/mood-engine
+scripts/theme-apply

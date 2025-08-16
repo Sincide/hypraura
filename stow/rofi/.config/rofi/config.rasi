@@ -1,0 +1,8 @@
+@theme "colors.rasi"
+configuration {
+  modi: "drun,run,window";
+  font: "Fira Sans 12";
+  display-drun: "Apps";
+  drun-display-format: "{name}";
+  show-icons: true;
+}

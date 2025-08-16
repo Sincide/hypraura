@@ -1,0 +1,11 @@
+{
+  "layer": "top",
+  "position": "top-right",
+  "icon-theme": "Papirus-Dark",
+  "timeout": 5000,
+  "notification": {
+    "font": "Fira Sans 12",
+    "actions": true
+  },
+  "style": "style.css"
+}
