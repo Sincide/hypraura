@@ -28,7 +28,7 @@ fi
 sudo sed -i 's/^#Color/Color/' /etc/pacman.conf
 sudo sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 5/' /etc/pacman.conf
 
-PACKAGES_PACMAN=(
+PACKAGES=(
   "base-devel" "git" "gnu-free-fonts" "xdg-user-dirs" \
   "waybar" "wofi" "rofi-wayland" "swaync" \
   "wallust" "pywal" "swww" "mpv" "mpvpaper" \
@@ -36,25 +36,21 @@ PACKAGES_PACMAN=(
   "wf-recorder" "cliphist" "cava" "jq" "imagemagick" "sox" "aubio" \
   "bluez" "bluez-utils" "lm_sensors" "kvantum" "qt5ct" "qt6ct" \
   "papirus-icon-theme" "papirus-folders" "btop" "fastfetch" "yazi" \
-  "playerctl" "wireplumber" "xdg-desktop-portal-gtk" "sdl2" "gum"
-)
-
-PACKAGES_AUR=(
-  "paru" "hyprcursor" "hyprpaper" "xdg-desktop-portal-hyprland" \
+  "playerctl" "wireplumber" "xdg-desktop-portal-gtk" "sdl2" "gum" \
+  "hyprcursor" "hyprpaper" "xdg-desktop-portal-hyprland" \
   "xdg-desktop-portal-wlr" "swayimg"
 )
 
-# install paru if not present
-if ! command -v paru >/dev/null; then
+# install yay if not present
+if ! command -v yay >/dev/null; then
   sudo pacman -S --needed --noconfirm base-devel git
-  git clone https://aur.archlinux.org/paru.git /tmp/paru
-  pushd /tmp/paru >/dev/null
+  git clone https://aur.archlinux.org/yay-bin.git /tmp/yay-bin
+  pushd /tmp/yay-bin >/dev/null
   makepkg -si --noconfirm
   popd >/dev/null
 fi
 
-sudo pacman -S --needed --noconfirm "${PACKAGES_PACMAN[@]}"
-paru -S --needed --noconfirm "${PACKAGES_AUR[@]}"
+yay -S --needed --noconfirm "${PACKAGES[@]}"
 
 CHOICE="Hyprland"
 if command -v gum >/dev/null; then
